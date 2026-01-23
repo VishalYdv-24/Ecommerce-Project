@@ -192,7 +192,7 @@ SIMPLE_JWT = {
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": os.getenv("dtepojror"),
-    "API_KEY": os.getenv("765526826295317"),
-    "API_SECRET": os.getenv("lbT3na9d44RNscE-J-EgX7UA6C4"),
+    "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": os.getenv("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
 }
