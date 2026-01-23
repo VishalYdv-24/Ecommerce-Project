@@ -10,8 +10,8 @@ class StoreConfig(AppConfig):
         User = get_user_model()
 
         username = os.getenv("DJANGO_SUPERUSER_USERNAME", "admin")
-        email = os.getenv("DJANGO_SUPERUSER_EMAIL", "admin@example.com")
-        password = os.getenv("DJANGO_SUPERUSER_PASSWORD", "admin123")
+        email = os.getenv("DJANGO_SUPERUSER_EMAIL", "vishal@gmail.com")
+        password = os.getenv("DJANGO_SUPERUSER_PASSWORD", "12345")
 
         if not User.objects.filter(username=username).exists():
             User.objects.create_superuser(
