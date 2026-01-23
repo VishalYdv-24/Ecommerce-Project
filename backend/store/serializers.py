@@ -9,7 +9,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only=True)
-    image = serializers.ImageField(use_url=True)
+    image = serializers.ImageField(required=False,allow_null=True,use_url=True)
 
     class Meta :
         model = Product
