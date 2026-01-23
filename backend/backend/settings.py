@@ -34,12 +34,16 @@ INSTALLED_APPS = [
     'store',
     'corsheaders',
     'rest_framework',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    'cloudinary',
+    'cloudinary_storage',
     'rest_framework_simplejwt',
 ]
 
@@ -166,8 +170,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_ALL_ORIGINS = True
 
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -185,4 +187,12 @@ SIMPLE_JWT = {
     'ROTATE_REFRESH_TOKENS' : False,
     'BLACKLIST_AFTER_ROTATION' : True,
     'AUTH_HEADER_TYPES' : ('Bearer',),
+}
+
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.getenv("dtepojror"),
+    "API_KEY": os.getenv("765526826295317"),
+    "API_SECRET": os.getenv("lbT3na9d44RNscE-J-EgX7UA6C4"),
 }
