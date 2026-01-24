@@ -11,16 +11,19 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from django.contrib.auth.models import User
 from .serializers import RegisterSerializer,UserSerializer
+from rest_framework.parsers import MultiPartParser, FormParser
 
 
 # Create your views here.
 
 # PRODUCT
 # get products
+
 class get_products(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    # pagination_class = CustomPagination
+    parser_classes = (MultiPartParser, FormParser)
+
 
 # product with id
 class product_id(generics.RetrieveUpdateDestroyAPIView):

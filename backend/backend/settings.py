@@ -17,13 +17,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'django-insecure-u3evcua-3rh*cbpj2y$j+sfx@a*!ch!^pgjzs$&eeb7b24@ttr'
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
+SECRET_KEY = os.getenv(
+    "DJANGO_SECRET_KEY",
+    "django-insecure-local-development-key"
+)
+
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 # DEBUG = False
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -93,9 +97,36 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # }
 
 
+# DATABASE_URL = os.getenv("DATABASE_URL")
+
+# if DATABASE_URL:
+#     DATABASES = {
+#         "default": dj_database_url.parse(
+#             DATABASE_URL,
+#             conn_max_age=600,
+#             ssl_require=True
+#         )
+#     }
+# else:
+#     DATABASES = {
+#         "default": {
+#             "ENGINE": "django.db.backends.postgresql",
+#             "NAME": os.getenv("DB_NAME"),
+#             "USER": os.getenv("DB_USER"),
+#             "PASSWORD": os.getenv("DB_PASSWORD"),
+#             "HOST": os.getenv("DB_HOST"),
+#             "PORT": os.getenv("DB_PORT"),
+#             "OPTIONS": {
+#                 "sslmode": "disable",
+#             },
+#         }
+#     }
+
+
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 if DATABASE_URL:
+    # Render / Production
     DATABASES = {
         "default": dj_database_url.parse(
             DATABASE_URL,
@@ -104,19 +135,18 @@ if DATABASE_URL:
         )
     }
 else:
+    # Local development (NO PASSWORD ISSUES)
     DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.getenv("DB_NAME"),
-            "USER": os.getenv("DB_USER"),
-            "PASSWORD": os.getenv("DB_PASSWORD"),
-            "HOST": os.getenv("DB_HOST"),
-            "PORT": os.getenv("DB_PORT"),
-            "OPTIONS": {
-                "sslmode": "disable",
-            },
-        }
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("DB_NAME", "ecommerce_db"),
+        "USER": os.getenv("DB_USER", "ecom_vis"),
+        "PASSWORD": os.getenv("DB_PASSWORD", "2004"),
+        "HOST": os.getenv("DB_HOST", "localhost"),
+        "PORT": os.getenv("DB_PORT", "5432"),
     }
+}
+
 
 
 
@@ -189,13 +219,32 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES' : ('Bearer',),
 }
 
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+# DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
-CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME"),
-    "API_KEY": os.getenv("CLOUDINARY_API_KEY"),
-    "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
 }
 
-print("STORAGE:", DEFAULT_FILE_STORAGE)
-print("CLOUDINARY:", CLOUDINARY_STORAGE)
+
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME", "daoqfvk4g"),
+    "API_KEY": os.getenv("CLOUDINARY_API_KEY", "843737655131271"),
+    "API_SECRET": os.getenv("CLOUDINARY_API_SECRET", "BZJ09KaQrIGr0G3Z970sQZr2DGg"),
+}
+CLOUDINARY_URL = os.getenv(
+    "CLOUDINARY_URL",
+    "cloudinary://843737655131271:BZJ09KaQrIGr0G3Z970sQZr2DGg@daoqfvk4g"
+)
+
+
+cloudinary.config(
+    cloud_name=CLOUDINARY_STORAGE["CLOUD_NAME"],
+    api_key=CLOUDINARY_STORAGE["API_KEY"],
+    api_secret=CLOUDINARY_STORAGE["API_SECRET"],
+    secure=True,
+)
