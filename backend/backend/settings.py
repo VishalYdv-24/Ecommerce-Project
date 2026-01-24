@@ -23,7 +23,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 # DEBUG = False
-DEBUG = os.getenv("DEBUG") == "True"
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -189,15 +189,7 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES' : ('Bearer',),
 }
 
-STORAGES = {
-    "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
-
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 CLOUDINARY_STORAGE = {
     "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME"),
@@ -205,5 +197,5 @@ CLOUDINARY_STORAGE = {
     "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
 }
 
-# print("STORAGE:", DEFAULT_FILE_STORAGE)
-# print("CLOUDINARY:", CLOUDINARY_STORAGE)
+print("STORAGE:", DEFAULT_FILE_STORAGE)
+print("CLOUDINARY:", CLOUDINARY_STORAGE)
